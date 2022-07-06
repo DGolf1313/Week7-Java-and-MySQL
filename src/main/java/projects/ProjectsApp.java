@@ -14,10 +14,13 @@ public class ProjectsApp {
 	private Scanner scanner = new Scanner(System.in);
 	private ProjectService projectService = new ProjectService();
 	
+	private Project curProject = new Project();
+	
 //@ formatter:off		
 	private List<String> operations = List.of(
-		"1) Add a project"
-		
+		"1) Add a project",
+		"2) List projects",
+		"3) Selet a project"
 		);
 //@formatter:on
 
@@ -43,14 +46,56 @@ private void processUserSelections() {
 				createProject();
 				break;
 				
+			case 2:
+				listProjects();
+				break;
+				
+			case 3:
+				selectProject();
+				break;
+				
 			default:
 				System.out.println("\n" + selection + "Is not a valid selection, please try again.");
+				break;
 			}
-		}catch (Exception e) {
-			System.out.println("\nError: " + e.toString() + "Please try again");
+		}
+		catch (Exception e) {
+			System.out.println("\nError: " + e.toString() + " Please try again");
 		}
 	}
 }
+
+
+private void selectProject() {
+listProjects();
+Integer projectId = getIntInput("Enter a project ID to select a project.");
+curProject = null;
+curProject = projectService.fetchProjectById(projectId);
+
+}
+
+
+private void listProjects() {
+	List<Project> projects = projectService.fetchAllProjects();
+	
+	System.out.println("\nProjects:");
+	
+	projects.forEach(project -> System.out.println("   " + project.getProjectId() + ": " + project.getProjectName()));
+}
+
+private void printOperations() {
+	System.out.println("\nThese are the projects available to choose from. Press the Enter key to quit:");
+	operations.forEach(line -> System.out.println("   " + line));
+	
+	if(Objects.isNull(curProject)) {
+		System.out.println("\nYou are not working with a project.");
+	}
+	else {
+		System.out.println("\nYou work working with project: " + curProject);
+	}
+}
+
+
 private void createProject() {
 	String projectName = getStringInput("Enter the project name.");
 	BigDecimal estimatedHours = getDecimalInput("enter the estimated hours.");
@@ -69,19 +114,23 @@ private void createProject() {
 	
 	Project dbProject = projectService.addProject(project);
 	System.out.println("You have successfully created the project: " + dbProject);
-	
 }
 
+
 private boolean exitMenu() {
-	System.out.println("\nYou are exiting the MENU, see ya later!");
+	System.out.print("\nYou are exiting the MENU, see ya later!");
 	return true;
 }
+
+
 private int getUserSelection() {
 	printUserSelection();
 	Integer input = getIntInput("Enter a menu selection");
 	
 	return Objects.isNull(input) ? -1 : input;
 }
+
+
 private Integer getIntInput(String prompt) {
 	String input = getStringInput(prompt);
 	if (Objects.isNull(input)) {
@@ -95,12 +144,14 @@ private Integer getIntInput(String prompt) {
 	}
 }
 
+
 private String getStringInput(String prompt) {
 	System.out.print(prompt + ": ");
 	String input = scanner.nextLine();
 	
 	return input.isBlank() ? null : input.trim();
 }
+
 
 private BigDecimal getDecimalInput(String prompt) {
 	String input = getStringInput(prompt);
@@ -115,9 +166,10 @@ private BigDecimal getDecimalInput(String prompt) {
 		throw new DbException(input + " is not a valid decimal number.");
 	}
 }
+
+
 private void printUserSelection() {
 	System.out.println("\nThere are the available selections. Or press the Enter key to quit:");
 	operations.forEach(line -> System.out.println(" " + line));
-	
 }
 }
