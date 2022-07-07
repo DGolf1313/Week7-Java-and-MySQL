@@ -103,7 +103,7 @@ public class ProjectDao extends DaoBase{
 				Project project = null;
 				
 				try(PreparedStatement stmt = conn.prepareStatement(sql)){
-					setParameter(stmt, 1, projectId, Project.class);
+					setParameter(stmt, 1, projectId, Integer.class);
 				
 					try(ResultSet rs = stmt.executeQuery()){
 						if(rs.next()) {
@@ -137,7 +137,7 @@ public class ProjectDao extends DaoBase{
 		String sql = ""
 				+ "SELECT c.* FROM " + CATEGORY_TABLE + " c "
 				+ "JOIN " + PROJECT_CATEGORY_TABLE + " pc USING (category_id) "
-				+ "WHERE project_id = ?";
+				+ " WHERE project_id = ?";
 		// @formatter:on
 		
 		try(PreparedStatement stmt = conn.prepareStatement(sql)){
@@ -157,7 +157,7 @@ public class ProjectDao extends DaoBase{
 		// @formatter:off
 		String sql = ""
 				+ "SELECT * FROM " + MATERIAL_TABLE 
-				+ "WHERE project_id = ?";
+				+ " WHERE project_id = ?";
 		// @formatter:on
 		
 		try(PreparedStatement stmt = conn.prepareStatement(sql)){
@@ -176,7 +176,7 @@ public class ProjectDao extends DaoBase{
 		// @formatter:off
 		String sql = ""
 				+ "SELECT * FROM " + STEP_TABLE 
-				+ "WHERE project_id = ?";
+				+ " WHERE project_id = ?";
 		// @formatter:on
 		
 		try(PreparedStatement stmt = conn.prepareStatement(sql)){

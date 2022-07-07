@@ -71,6 +71,7 @@ listProjects();
 Integer projectId = getIntInput("Enter a project ID to select a project.");
 curProject = null;
 curProject = projectService.fetchProjectById(projectId);
+System.out.println(curProject);
 
 }
 
