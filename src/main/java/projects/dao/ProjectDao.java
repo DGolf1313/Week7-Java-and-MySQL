@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -66,7 +65,7 @@ public class ProjectDao extends DaoBase{
 	public List<Project> fetchAllProjects(){
 		// @formatter:off
 		String sql = ""
-				+ "SELECT * FROM " + PROJECT_TABLE + " ORDER BY project_name";
+				+ "SELECT * FROM " + PROJECT_TABLE + " ORDER BY project_id";
 		// @formatter:on		
 		
 		try(Connection conn = DbConnection.getConnection()){
@@ -193,13 +192,16 @@ public class ProjectDao extends DaoBase{
 
 	public boolean modifyProjectDetails(Project project) {
 		//@formatter:off
-		String sql = "UPDATE " + PROJECT_TABLE + " SET "
+		String sql = ""
+			+ "UPDATE " + PROJECT_TABLE + " SET "
 			+ "project_name = ?, "
 			+ "estimated_hours = ?, "
 			+ "actual_hours = ?, "
+			+ "difficulty = ?, "
 			+ "notes = ?, "
-			+ "WHERE project_id = ? ";
+			+ "WHERE project_id = ?";
 		//@formatter:on
+		
 		try(Connection conn = DbConnection.getConnection()){
 			startTransaction(conn);
 			

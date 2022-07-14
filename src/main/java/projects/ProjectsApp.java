@@ -77,18 +77,20 @@ private void updateProjectDetails() {
 		System.out.println("\nYou are not working with a project yet, please select a project!");
 		return;
 	}
-	String projectName = getStringInput("Enter the project name [" + curProject + curProject.getProjectName() + "]");
+	String projectName = 
+			getStringInput("Enter the project name ["  + curProject.getProjectName() + "]");
 	
-	BigDecimal estimatedHours = getDecimalInput("Enter the estimated hours [" + curProject + curProject.getEstimatedHours() + "]" );
+	BigDecimal estimatedHours = getDecimalInput("Enter the estimated hours ["  + curProject.getEstimatedHours() + "]" );
 	
-	BigDecimal actualHours = getDecimalInput("Enter the actual hours [" + curProject + curProject.getActualHours() + "]" );
+	BigDecimal actualHours = getDecimalInput("Enter the actual hours ["  + curProject.getActualHours() + "]" );
 	
-	Integer difficulty = getIntInput("Enter the project difficulty range 1-5 [" + curProject + curProject.getDifficulty() + "]");
+	Integer difficulty = getIntInput("Enter the project difficulty range 1-5 ["  + curProject.getDifficulty() + "]");
 	
-	String notes = getStringInput("Enter the project notes [" + curProject + curProject.getNotes() + "]");
+	String notes = getStringInput("Enter the project notes ["  + curProject.getNotes() + "]");
 	
 	Project project = new Project();
 	
+	project.setProjectId(curProject.getProjectId());
 	project.setProjectName(Objects.isNull(projectName) ? curProject.getProjectName() : projectName);
 	project.setEstimatedHours(Objects.isNull(estimatedHours) ? curProject.getEstimatedHours() : estimatedHours);
 	project.setActualHours(Objects.isNull(actualHours) ? curProject.getActualHours() : actualHours);
