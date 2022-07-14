@@ -22,7 +22,8 @@ public class ProjectsApp {
 		"1) Add a project",
 		"2) List projects",
 		"3) Selet a project",
-		"4) Udate project details"
+		"4) Udate project details",
+		"5) Delete a project"
 		);
 //@formatter:on
 
@@ -60,6 +61,11 @@ private void processUserSelections() {
 				updateProjectDetails();
 				break;
 				
+			case 5:
+				deleteProject();
+				break;
+				
+				
 			default:
 				System.out.println("\n" + selection + "Is not a valid selection, please try again.");
 				break;
@@ -72,6 +78,21 @@ private void processUserSelections() {
 }
 
 
+private void deleteProject() {
+	listProjects();
+	
+	Integer projectId = getIntInput("Enter the ID of the project you want to fully delete:");
+	
+	projectService.deleteProject(projectId);
+	
+	System.out.println("The project: " + projectId + " was deleted");
+	
+	if(Objects.nonNull(curProject) && curProject.getProjectId().equals(projectId)) {
+		curProject = null;
+	}
+	
+	
+}
 private void updateProjectDetails() {
 	if(Objects.isNull(curProject)) {
 		System.out.println("\nYou are not working with a project yet, please select a project!");

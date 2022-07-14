@@ -192,8 +192,7 @@ public class ProjectDao extends DaoBase{
 
 	public boolean modifyProjectDetails(Project project) {
 		//@formatter:off
-		String sql = ""
-			+ "UPDATE " + PROJECT_TABLE + " SET "
+		String sql = "UPDATE " + PROJECT_TABLE + " SET "
 			+ "project_name = ?, "
 			+ "estimated_hours = ?, "
 			+ "actual_hours = ?, "
@@ -226,4 +225,30 @@ public class ProjectDao extends DaoBase{
 		throw new DbException(e);
 	}
 }
+
+	public boolean deleteProject(Integer projectId) {
+		String sql = "DELETE FROM " + PROJECT_TABLE + " WHERE project_id = ?";
+		
+		try(Connection conn = DbConnection.getConnection()){
+			startTransaction(conn);
+			
+			try(PreparedStatement stmt = conn.prepareStatement(sql)){
+				setParameter(stmt, 1, projectId, Integer.class);
+				
+				boolean deletedTable = stmt.executeUpdate()	== 1;
+				
+				commitTransaction(conn);
+				return deletedTable;
+				
+			}
+			catch (Exception e) {
+				rollbackTransaction(conn);
+				throw new DbException(e);
+			}
+			
+		} catch (SQLException e) {
+			throw new DbException(e);
+		}
+		
+	}
 }
