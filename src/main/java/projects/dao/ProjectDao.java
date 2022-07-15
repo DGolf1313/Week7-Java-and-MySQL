@@ -131,6 +131,7 @@ public class ProjectDao extends DaoBase{
 		}
 	}
 
+	
 	private List<Category> fetchCategoriesForProject(Connection conn, Integer projectId) throws SQLException {
 		// @formatter:off
 		String sql = ""
@@ -171,6 +172,7 @@ public class ProjectDao extends DaoBase{
 		}
 	}
 	
+	
 	private List<Step> fetchStepsForProject(Connection conn, Integer projectId) throws SQLException {
 		// @formatter:off
 		String sql = ""
@@ -190,6 +192,7 @@ public class ProjectDao extends DaoBase{
 		}
 	}
 
+	
 	public boolean modifyProjectDetails(Project project) {
 		//@formatter:off
 		String sql = "UPDATE " + PROJECT_TABLE + " SET "
@@ -197,7 +200,7 @@ public class ProjectDao extends DaoBase{
 			+ "estimated_hours = ?, "
 			+ "actual_hours = ?, "
 			+ "difficulty = ?, "
-			+ "notes = ?, "
+			+ "notes = ? "
 			+ "WHERE project_id = ?";
 		//@formatter:on
 		
@@ -226,6 +229,7 @@ public class ProjectDao extends DaoBase{
 	}
 }
 
+	
 	public boolean deleteProject(Integer projectId) {
 		String sql = "DELETE FROM " + PROJECT_TABLE + " WHERE project_id = ?";
 		
@@ -239,16 +243,13 @@ public class ProjectDao extends DaoBase{
 				
 				commitTransaction(conn);
 				return deletedTable;
-				
 			}
 			catch (Exception e) {
 				rollbackTransaction(conn);
 				throw new DbException(e);
 			}
-			
 		} catch (SQLException e) {
 			throw new DbException(e);
 		}
-		
 	}
 }

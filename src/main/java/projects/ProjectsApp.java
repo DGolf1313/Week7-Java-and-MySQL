@@ -16,13 +16,14 @@ public class ProjectsApp {
 	
 	private Project curProject;
 	
+	//
 	
 //@ formatter:off		
 	private List<String> operations = List.of(
 		"1) Add a project",
 		"2) List projects",
 		"3) Selet a project",
-		"4) Udate project details",
+		"4) Update project details",
 		"5) Delete a project"
 		);
 //@formatter:on
@@ -33,6 +34,10 @@ public class ProjectsApp {
 		new ProjectsApp().processUserSelections();
 		
 	}
+	
+	
+	//This is a switch statement to allow the user to choose between the menu options.
+	
 private void processUserSelections() {
 	boolean done = false;
 	
@@ -77,7 +82,7 @@ private void processUserSelections() {
 	}
 }
 
-
+// This method carries out case 5, the delete project.
 private void deleteProject() {
 	listProjects();
 	
@@ -93,6 +98,10 @@ private void deleteProject() {
 	
 	
 }
+
+//This method carries out the switch case 4, where a user can update the details of a project.  
+//It first finds out if the current project is null or not. It then asks for updated information
+//about each item in the diy table.
 private void updateProjectDetails() {
 	if(Objects.isNull(curProject)) {
 		System.out.println("\nYou are not working with a project yet, please select a project!");
@@ -122,7 +131,8 @@ private void updateProjectDetails() {
 	curProject = projectService.fetchProjectById(curProject.getProjectId());
 }
 
-
+//This method carries out case 3, the select a project.  It first calls a list of the projects, then allows
+//the user to select a current project.
 private void selectProject() {
 listProjects();
 Integer projectId = getIntInput("Enter a project ID to select a project.");
@@ -132,7 +142,7 @@ System.out.println(curProject);
 
 }
 
-
+//This method carries out case 2. It creates a list of the projects.
 private void listProjects() {
 	List<Project> projects = projectService.fetchAllProjects();
 	
@@ -153,7 +163,7 @@ private void printOperations() {
 	}
 }
 
-
+//This method carries out case 1, where a user can create and add the details of a new project. 
 private void createProject() {
 	String projectName = getStringInput("Enter the project name.");
 	BigDecimal estimatedHours = getDecimalInput("enter the estimated hours.");
@@ -174,13 +184,13 @@ private void createProject() {
 	System.out.println("You have successfully created the project: " + dbProject);
 }
 
-
+//This method returns a statement when a user exits the menu.
 private boolean exitMenu() {
 	System.out.print("\nYou are exiting the MENU, see ya later!");
 	return true;
 }
 
-
+//This method is used to return the users menu selection
 private int getUserSelection() {
 	printUserSelection();
 	Integer input = getIntInput("Enter a menu selection");
@@ -188,7 +198,7 @@ private int getUserSelection() {
 	return Objects.isNull(input) ? -1 : input;
 }
 
-
+//This method is used when a user's input will be an integer.
 private Integer getIntInput(String prompt) {
 	String input = getStringInput(prompt);
 	if (Objects.isNull(input)) {
@@ -202,7 +212,7 @@ private Integer getIntInput(String prompt) {
 	}
 }
 
-
+//This method is used when a user's input will be a string.
 private String getStringInput(String prompt) {
 	System.out.print(prompt + ": ");
 	String input = scanner.nextLine();
@@ -210,7 +220,7 @@ private String getStringInput(String prompt) {
 	return input.isBlank() ? null : input.trim();
 }
 
-
+//This method is used when a user's input will be a big decimal.
 private BigDecimal getDecimalInput(String prompt) {
 	String input = getStringInput(prompt);
 	
